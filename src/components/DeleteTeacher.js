@@ -2,7 +2,6 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 export default function DeleteTeacher(props) {
   const [teachers, setTeacher] = useState();
-  const [get, set] = useState();
   const getTeachers = async () => {
     var data = await axios.get("http://localhost:3000/admin/teachers");
     console.log(typeof data);
@@ -14,15 +13,14 @@ export default function DeleteTeacher(props) {
     console.log("useeffect called");
     getTeachers();
     console.log("useeffect ended");
-  }, [set]);
+  }, [teachers]);
   const deleteTeacher = (id) => {
     axios
       .delete("http://localhost:3000/admin/teacher/" + id)
       .then(async (error, response) => {
         if (error) return error;
         let data1 = await teachers.filter((e) => e._id != id);
-        set(data1);
-        console.log("setting")
+        setTeacher([...data1]);
       });
   };
 
